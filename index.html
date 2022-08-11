@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsForDinner</title>
+    <!-- insert bootstrap alternative here -->
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body>
+<!-- incorporate styling -->
+<header>WhatsForDinner</header>
+
+<h2>Welcome to our Dinner Generator</h2>
+
+<!-- insert rows and columns here -->
+<div class="container">
+<div>
+<p>Are you looking for a specific type of food?</p>
+<select name="meals">
+    <option value="ingredients">Search by ingredients</option>
+    <option value="food_type">Search by food type</option>
+  </select>
+<input type="text" placeholder="Feed Me"> 
+<button>Lets Eat</button>
+<!-- meal output goes here -->
+<div class="meal-output"></div>
+<!-- recent meal matches go here -->
+<div class="lastMeals"></div>
+</div>
+
+<div>
+<p>Lets pair up your dinner with a drink</p>
+<select name="drinks">
+    <option value="ingredients">Search by ingredients</option>
+    <option value="drink_type">Search by drink type</option>
+  </select>
+  <input type="text" placeholder="Drink responsibly"> 
+<button>Lets get drunk</button>
+<!-- drink output goes here -->
+<div class="drink-output"></div>
+<!-- recent drink matches go here -->
+<div class="lastDrink"></div>
+</div>
+</div>
+
+<!-- our funtime box -->
+<footer class="funTime"></footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/scripts.js"></script>
+</body>
+</html>
