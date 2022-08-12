@@ -1,6 +1,7 @@
 
 
 // API URLs
+const mealDB = 'https://www.themealdb.com/api/json/v1/1/list.php?'
 const mealDBIngList = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list' // MealDB ingredient list
 const mealDBCatList = 'http://www.themealdb.com/api/json/v1/1/list.php?c=list' // MealDB category list
 const cocktailRedirect = 'https://www.thecocktaildb.com/drink/' //Requires code and name from returned data seperated by dashes e.g. https://www.thecocktaildb.com/drink/11000-Mojito-Cocktail
@@ -27,14 +28,17 @@ const drinkBtn3 = document.getElementById('drinkBtn3');
 const mealInput = document.getElementById('mealInput');
 const drinkInput = document.getElementById('drinkInput');
 
+const joke = document.getElementById("chuck");
+
 
 function fetchStuff(request) {
     fetch(request)
-        .then(function(response) {
+        .then(function (response) {
             if (response.ok) {
                 return response.json()
-                    .then(function(data) {
-                        console.log(data)
+                    .then(function (data) {
+                        console.log(data);
+                        document.getElementById("joke").innerHTML = data.value;
                         if (data.meals === null) {
                             alert('null')
                         }
@@ -44,59 +48,76 @@ function fetchStuff(request) {
                 alert(`Error: ${response.statusText}`)
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             alert(`Unable to retireve requested data`)
         })
-        if (data.meals === null) {
-            alert('null')
-        }
+    if (data.meals === null) {
+        alert('null')
+    }
 }
 
 function buildMealIngReq(a) {
     let mealUrl = `${mealDBIng}${a}`
+    if (a === "") {
+        return;
+    }
     fetchStuff(mealUrl)
 };
 
 function buildMealCatReq(b) {
     let mealUrl = `${mealDBCat}${b}`
+    if (b === "") {
+        return;
+    }
     fetchStuff(mealUrl)
 };
 
 function buildDrinkIngReq(c) {
     let drinkUrl = `${cocktailDBIng}${c}`
+    if (c === "") {
+        return;
+    }
     fetchStuff(drinkUrl)
 };
 
 function buildDrinkAlcReq(d) {
     let drinkUrl = `${cocktailDBAlc}${d}`
+    if (d === "") {
+        return;
+    }
     fetchStuff(drinkUrl)
 };
 
 
 
 
-mealBtn1.addEventListener('click', function(ev) {
+mealBtn1.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildMealIngReq(mealInput.value);
 })
-mealBtn2.addEventListener('click', function(ev) {
+mealBtn2.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildMealCatReq(mealInput.value);
 })
-mealBtn3.addEventListener('click', function(ev){
+mealBtn3.addEventListener('click', function (ev) {
     ev.preventDefault();
     fetchStuff(mealDBRand);
 })
 
-drinkBtn1.addEventListener('click', function(ev) {
+drinkBtn1.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildDrinkIngReq(drinkInput.value);
 })
-drinkBtn2.addEventListener('click', function(ev) {
+drinkBtn2.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildDrinkAlcReq(drinkInput.value);
 })
-drinkBtn3.addEventListener('click', function(ev){
+drinkBtn3.addEventListener('click', function (ev) {
     ev.preventDefault();
     fetchStuff(cocktailDBRand);
 })
+
+joke.addEventListener("click", function (ev) {
+    ev.preventDefault();
+    fetchStuff(chuckNorris);
+}) 
