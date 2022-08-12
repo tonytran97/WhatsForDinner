@@ -3,6 +3,7 @@
 // API URLs
 const mealDBIngList = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list' // MealDB ingredient list
 const mealDBCatList = 'http://www.themealdb.com/api/json/v1/1/list.php?c=list' // MealDB category list
+const cocktailRedirect = 'https://www.thecocktaildb.com/drink/' //Requires code and name from returned data seperated by dashes e.g. https://www.thecocktaildb.com/drink/11000-Mojito-Cocktail
 
 const mealDBIng = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' // Need to add ingredient after 'i='
 const mealDBCat = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=' // Need to add category after 'c='
@@ -61,6 +62,15 @@ function buildMealCatReq(b) {
     fetchStuff(mealUrl)
 };
 
+function buildDrinkIngReq(c) {
+    let drinkUrl = `${cocktailDBIng}${c}`
+    fetchStuff(drinkUrl)
+};
+
+function buildDrinkAlcReq(d) {
+    let drinkUrl = `${cocktailDBAlc}${d}`
+    fetchStuff(drinkUrl)
+};
 
 
 
@@ -78,6 +88,15 @@ mealBtn3.addEventListener('click', function(ev){
     fetchStuff(mealDBRand);
 })
 
-drinkBtn1.addEventListener('click', function(){})
-drinkBtn2.addEventListener('click', function(){})
-drinkBtn3.addEventListener('click', function(){})
+drinkBtn1.addEventListener('click', function(ev) {
+    ev.preventDefault();
+    buildDrinkIngReq(drinkInput.value);
+})
+drinkBtn2.addEventListener('click', function(ev) {
+    ev.preventDefault();
+    buildDrinkAlcReq(drinkInput.value);
+})
+drinkBtn3.addEventListener('click', function(ev){
+    ev.preventDefault();
+    fetchStuff(cocktailDBRand);
+})
