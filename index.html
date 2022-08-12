@@ -17,6 +17,19 @@
 <h2 class="is-size-3 has-text-centered">Welcome to our Dinner Generator!</h2>
 
 <!-- insert rows and columns here -->
+
+<div class="container">
+<div>
+<p>Are you looking for a specific type of food?</p>
+<select name="meals">
+    <option value="ingredients">Search by ingredients</option>
+    <option value="food_type">Search by food type</option>
+  </select>
+<input type="text" placeholder="Feed Me" id="mealInput"> 
+<button id="mealBtn1">Lets Eat chicken</button>
+<button id="mealBtn2">Lets Eat Italian</button>
+<button id="mealBtn3">random</button>
+
   <div class="food">
     <form class="box has-text-centered has-background-grey pb-6">
     <div>
@@ -27,6 +40,7 @@
         </select>
     <input type="text" placeholder="Feed Me"> 
   <button class="button is-primary">Lets Eat</button>
+
 <!-- meal output goes here -->
   <div class="meal-output"></div>
 <!-- recent meal matches go here -->
@@ -42,8 +56,14 @@
     <option value="ingredients">Search by ingredients</option>
     <option value="drink_type">Search by drink type</option>
   </select>
+  <input type="text" placeholder="Drink responsibly" id="drinkInput"> 
+<button id="drinkBtn1">Lets get drunk</button>
+<button id="drinkBtn2">Lets NOT get drunk</button>
+<button id="drinkBtn3">Random</button>
+
   <input type="text" placeholder="Drink responsibly"> 
 <button class="button is-primary">Lets get drunk</button>
+
 <!-- drink output goes here -->
 <div class="drink-output"></div>
 <!-- recent drink matches go here -->
@@ -54,9 +74,17 @@
 
 
 <!-- our funtime box -->
+
+<footer class="funTime">
+  <p>Chuck Norris NSFW</p>
+  <button id="chuck">Joke</button>
+  <div id="joke"></div>
+</footer>
+
 <form class="box has-background-grey-dark">
 <footer class="funTime"></footer>
 </form>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="assets/scripts.js"></script>
 </body>
