@@ -71,9 +71,8 @@ function buildMealReq(x, y) {
     }
 }
 
-function buildDrinkReq(x, y, z) {
+function buildDrinkReq(x, y) {
     console.log(x, y)
-    
     drinkInput.value = ""
     if (y.length == 0) {
         fetchStuff(cocktailDBRand)
