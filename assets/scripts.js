@@ -121,3 +121,21 @@ joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
 }) 
+
+
+let storedSearchArr = [];
+
+function init() {
+    let storedSearches = JSON.parse(localStorage.getItem('searches'))
+    if (storedSearches !== null) {
+        storedSearchArr = storedSearches
+    }
+}
+
+function saveSearch(e) {
+    recentSearchArr.push(e);
+    while (recentSearchArr.length > 5) {
+        recentSearchArr.shift()
+    };
+    localStorage.setItem('searches', JSON.stringify(recentSearchArr))
+}
