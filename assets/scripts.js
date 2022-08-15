@@ -71,8 +71,9 @@ function buildMealReq(x, y) {
     }
 }
 
-function buildDrinkReq(x, y) {
+function buildDrinkReq(x, y, z) {
     console.log(x, y)
+    
     drinkInput.value = ""
     if (y.length == 0) {
         fetchStuff(cocktailDBRand)
@@ -98,4 +99,4 @@ drinkBtn.addEventListener('click', function(ev) {
 joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
-}) 
+})
