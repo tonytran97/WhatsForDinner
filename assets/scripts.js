@@ -53,11 +53,9 @@ function fetchStuff(request) {
         .catch(function (error) {
             alert(`Unable to retireve requested data`)
         })
-    if (data.meals === null) {
-        alert('null')
-    }
 }
 
+// builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
 function buildMealReq(x, y) {
     console.log(x, y)
     mealInput.value = ""
@@ -71,6 +69,7 @@ function buildMealReq(x, y) {
     }
 }
 
+// builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
 function buildDrinkReq(x, y) {
     console.log(x, y)
     drinkInput.value = ""
