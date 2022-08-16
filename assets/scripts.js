@@ -224,6 +224,7 @@ function getChuck(request) {
 }
 
 function showChuck() {
-    document.getElementById("joke").innerHTML = `${chuckJoke}
-    <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
+    document.getElementById("joke").innerHTML = `
+        <p>${chuckJoke}</p>
+        <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
 }
