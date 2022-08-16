@@ -40,7 +40,11 @@ function fetchStuff(request) {
                 return response.json()
                     .then(function (data) {
                         console.log(data);
-                        document.getElementById("joke").innerHTML = data.value;
+
+                        if (data.meals) { displayMeal(data) }
+                        else if (data.drinks) { displayDrink(data) }
+                        else { document.getElementById("joke").innerHTML = data.value }
+
                         if (data.meals === null) {
                             alert('null')
                         }
@@ -57,7 +61,6 @@ function fetchStuff(request) {
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
 function buildMealReq(x, y) {
-    console.log(x, y)
     mealInput.value = ""
     if (y.length == 0) {
         fetchStuff(mealDBRand)
@@ -71,7 +74,7 @@ function buildMealReq(x, y) {
 
 // builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
 function buildDrinkReq(x, y) {
-    console.log(x, y)
+
     drinkInput.value = ""
     if (y.length == 0) {
         fetchStuff(cocktailDBRand)
@@ -83,13 +86,13 @@ function buildDrinkReq(x, y) {
     }
 }
 
-mealBtn.addEventListener('click', function(ev) {
+mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildMealReq(mealCat.value, mealInput.value);
-    
+
 })
 
-drinkBtn.addEventListener('click', function(ev) {
+drinkBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildDrinkReq(drinkCat.value, drinkInput.value);
 })
@@ -98,7 +101,7 @@ joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
 
-}) 
+})
 
 // Can be used to populate recent seraches on page. Depending on how we want to use recent searches, may consider placing desired variables/data into an obect and pushing object into local storage.
 let storedSearchArr = [];
@@ -118,4 +121,76 @@ function saveSearch(e) {
         recentSearchArr.shift()
     };
     localStorage.setItem('searches', JSON.stringify(recentSearchArr))
+}
+
+function displayMeal(f) {
+    var display = f.meals[0].strMeal;
+    var picture = f.meals[0].strMealThumb;
+    var link = f.meals[0].strSource;
+    console.log(display);
+    $("#meal-output").html(`<h1> ${display} </h1>
+    <a href = "${link}" target="_blank"><img src="${picture}" id="meal-pic"></a>
+    `)
+}
+
+function displayDrink(g) {
+    var displayDrink = g.drinks[0].strDrink;
+    var pictureDrink = g.drinks[0].strDrinkThumb;
+    var recipeDrink = g.drinks[0].strInstructions;
+    var ingredientList = {
+        1: g.drinks[0].strIngredient1,
+        2: g.drinks[0].strIngredient2,
+        3: g.drinks[0].strIngredient3,
+        4: g.drinks[0].strIngredient4,
+        5: g.drinks[0].strIngredient5,
+        6: g.drinks[0].strIngredient6,
+        7: g.drinks[0].strIngredient7,
+        8: g.drinks[0].strIngredient8,
+        9: g.drinks[0].strIngredient9,
+        10: g.drinks[0].strIngredient10,
+        11: g.drinks[0].strIngredient11,
+        12: g.drinks[0].strIngredient12,
+        13: g.drinks[0].strIngredient13,
+        14: g.drinks[0].strIngredient14,
+        15: g.drinks[0].strIngredient15,
+    }
+    var ingredientMeasurements = {
+        1: g.drinks[0].strMeasure1,
+        2: g.drinks[0].strMeasure2,
+        3: g.drinks[0].strMeasure3,
+        4: g.drinks[0].strMeasure4,
+        5: g.drinks[0].strMeasure5,
+        6: g.drinks[0].strMeasure6,
+        7: g.drinks[0].strMeasure7,
+        8: g.drinks[0].strMeasure8,
+        9: g.drinks[0].strMeasure9,
+        10: g.drinks[0].strMeasure10,
+        11: g.drinks[0].strMeasure11,
+        12: g.drinks[0].strMeasure12,
+        13: g.drinks[0].strMeasure13,
+        14: g.drinks[0].strMeasure14,
+        15: g.drinks[0].strMeasure15,
+    }
+    $("#drink-output").html(`<h1> ${displayDrink} </h1>
+   <img src="${pictureDrink}" id="meal-pic">
+   <p id = "ing"> Required ingredients <p>
+   <p> ${recipeDrink} </p>
+    `)
+
+    for (i = 1; i < 16; i++) {
+
+        if (ingredientList[i] == null) {
+            return;
+        }
+
+        console.log(ingredientList[i]);
+        var dL = document.createElement("p");
+        dL.textContent = ingredientList[i] + " " + ingredientMeasurements[i];
+        console.log(dL);
+        $("#ing").append(dL);
+    }
+
+
+    console.log(displayDrink);
+
 }
