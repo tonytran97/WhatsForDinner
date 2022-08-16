@@ -98,7 +98,6 @@ function buildDrinkReq(x, y) {
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildMealReq(mealCat.value, mealInput.value);
-
 })
 
 drinkBtn.addEventListener('click', function (ev) {
@@ -109,7 +108,6 @@ drinkBtn.addEventListener('click', function (ev) {
 joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
-
 })
 
 // Can be used to populate recent seraches on page. Depending on how we want to use recent searches, may consider placing desired variables/data into an obect and pushing object into local storage.
@@ -206,8 +204,10 @@ function displayDrink(g) {
 
 // stores an array of gif urls to be chosen at random
 let chuckGifArr = [];
+// stores the chuck norris joke from the fetchStuff function.
 let chuckJoke;
 
+// queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gifs into the gif array and calls showChuck().
 function getChuck(request) {
     fetch(request)
         .then(function(response) {
@@ -223,6 +223,7 @@ function getChuck(request) {
         })
 }
 
+// builds the chuck box.
 function showChuck() {
     document.getElementById("joke").innerHTML = `
         <p>${chuckJoke}</p>
