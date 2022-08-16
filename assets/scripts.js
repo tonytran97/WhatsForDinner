@@ -43,7 +43,10 @@ function fetchStuff(request) {
 
                         if (data.meals) { displayMeal(data) }
                         else if (data.drinks) { displayDrink(data) }
-                        else { document.getElementById("joke").innerHTML = data.value }
+                        else {
+                            document.getElementById("joke").innerHTML = `${data.value} 
+                        <img src="https://images01.military.com/sites/default/files/styles/full/public/2021-04/chucknorris.jpeg.jpg?itok=2b4A6n29" id="chuck-pic"></img>`
+                        }
 
                         if (data.meals === null) {
                             alert('null')
@@ -57,6 +60,7 @@ function fetchStuff(request) {
         .catch(function (error) {
             alert(`Unable to retireve requested data`)
         })
+    storedSearchArr.push(request);
 }
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
@@ -116,11 +120,11 @@ function init() {
 
 // When called, takes argument e and pushes into storedSearch array. If array has length >5 will shift oldest item out of the array. Sets array to local storage.
 function saveSearch(e) {
-    recentSearchArr.push(e);
-    while (recentSearchArr.length > 5) {
-        recentSearchArr.shift()
+    storedSearchArr.push(e);
+    while (storedSearchArr.length > 5) {
+        storedSearchArr.shift()
     };
-    localStorage.setItem('searches', JSON.stringify(recentSearchArr))
+    localStorage.setItem('searches', JSON.stringify(storedSearchArr))
 }
 
 function displayMeal(f) {
