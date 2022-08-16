@@ -121,3 +121,23 @@ joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
 }) 
+
+// Can be used to populate recent seraches on page. Depending on how we want to use recent searches, may consider placing desired variables/data into an obect and pushing object into local storage.
+let storedSearchArr = [];
+
+// Gets local storage and sets to storedSearchArr if not empty. Function should be called upon load of page.
+function init() {
+    let storedSearches = JSON.parse(localStorage.getItem('searches'))
+    if (storedSearches !== null) {
+        storedSearchArr = storedSearches
+    }
+}
+
+// When called, takes argument e and pushes into storedSearch array. If array has length >5 will shift oldest item out of the array. Sets array to local storage.
+function saveSearch(e) {
+    recentSearchArr.push(e);
+    while (recentSearchArr.length > 5) {
+        recentSearchArr.shift()
+    };
+    localStorage.setItem('searches', JSON.stringify(recentSearchArr))
+}
