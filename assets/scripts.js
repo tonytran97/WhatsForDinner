@@ -21,6 +21,7 @@ const cocktailDBRand = 'https://www.thecocktaildb.com/api/json/v1/1/random.php' 
 const imgPreview = '/preview' // Add to end of the thumbnail image included in JSON to get image to display. Shows as either 'strMealThumb' or 'strDrinkThumb' in data packet.
 
 const chuckNorris = 'https://api.chucknorris.io/jokes/random' //Works as is
+const chuckNorrisGifs = 'https://tenor.googleapis.com/v2/search?q=Chuck_Norris&key=AIzaSyAeBfuaSeQDSNmw-MW-VBEz_kk33NHGygo&ar_range=standard&limit=50';
 
 const mealBtn = document.getElementById('mealBtn');
 const drinkBtn = document.getElementById('drinkBtn');
@@ -41,11 +42,15 @@ function fetchStuff(request) {
                     .then(function (data) {
                         console.log(data);
 
-                        if (data.meals) { displayMeal(data) }
-                        else if (data.drinks) { displayDrink(data) }
+                        if (data.meals) {
+                            displayMeal(data)
+                        }
+                        else if (data.drinks) {
+                            displayDrink(data)
+                        }
                         else {
-                            document.getElementById("joke").innerHTML = `${data.value} 
-                        <img src="https://images01.military.com/sites/default/files/styles/full/public/2021-04/chucknorris.jpeg.jpg?itok=2b4A6n29" id="chuck-pic"></img>`
+                            chuckJoke = data.value
+                            getChuck(chuckNorrisGifs)
                         }
 
                         if (data.meals === null) {
@@ -197,4 +202,28 @@ function displayDrink(g) {
 
     console.log(displayDrink);
 
+}
+
+// stores an array of gif urls to be chosen at random
+let chuckGifArr = [];
+let chuckJoke;
+
+function getChuck(request) {
+    fetch(request)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json()
+                    .then(function(data) {
+                        for (let i = 0; i < data.results.length; i++) {
+                            chuckGifArr.push(data.results[i].media_formats.gif.url)
+                        }
+                        showChuck()
+                    })
+            }
+        })
+}
+
+function showChuck() {
+    document.getElementById("joke").innerHTML = `${chuckJoke}
+    <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
 }
