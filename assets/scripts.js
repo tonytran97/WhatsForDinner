@@ -21,6 +21,7 @@ const cocktailDBRand = 'https://www.thecocktaildb.com/api/json/v1/1/random.php' 
 const imgPreview = '/preview' // Add to end of the thumbnail image included in JSON to get image to display. Shows as either 'strMealThumb' or 'strDrinkThumb' in data packet.
 
 const chuckNorris = 'https://api.chucknorris.io/jokes/random' //Works as is
+const chuckNorrisGifs = 'https://tenor.googleapis.com/v2/search?q=Chuck_Norris&key=AIzaSyAeBfuaSeQDSNmw-MW-VBEz_kk33NHGygo&ar_range=standard&limit=50';
 
 const mealBtn = document.getElementById('mealBtn');
 const drinkBtn = document.getElementById('drinkBtn');
@@ -44,15 +45,16 @@ function fetchStuff(request) {
                         if (data.meals) {
                             displayMeal(data)
                             saveMeals(data) 
+
                         }
                         else if (data.drinks) {
                             displayDrink(data)
                             saveDrinks(data)
                         }
                         else {
-                            document.getElementById("joke").innerHTML = `
-                            <p>${data.value}</p> 
-                            <img src="https://images01.military.com/sites/default/files/styles/full/public/2021-04/chucknorris.jpeg.jpg?itok=2b4A6n29" id="chuck-pic"></img>`
+                            chuckJoke = data.value
+                            getChuck(chuckNorrisGifs)
+
                         }
 
                         if (data.meals === null) {
@@ -99,7 +101,6 @@ function buildDrinkReq(x, y) {
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
     buildMealReq(mealCat.value, mealInput.value);
-
 })
 
 drinkBtn.addEventListener('click', function (ev) {
@@ -110,7 +111,6 @@ drinkBtn.addEventListener('click', function (ev) {
 joke.addEventListener("click", function (ev) {
     ev.preventDefault();
     fetchStuff(chuckNorris);
-
 })
 
 // Array to be iterated over for building locally stored recipes and rendering on page.
@@ -269,5 +269,35 @@ function displayDrink(g) {
 
 }
 
+
+// stores an array of gif urls to be chosen at random
+let chuckGifArr = [];
+// stores the chuck norris joke from the fetchStuff function.
+let chuckJoke;
+
+// queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gifs into the gif array and calls showChuck().
+function getChuck(request) {
+    fetch(request)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json()
+                    .then(function(data) {
+                        for (let i = 0; i < data.results.length; i++) {
+                            chuckGifArr.push(data.results[i].media_formats.gif.url)
+                        }
+                        showChuck()
+                    })
+            }
+        })
+}
+
+// builds the chuck box.
+function showChuck() {
+    document.getElementById("joke").innerHTML = `
+        <p>${chuckJoke}</p>
+        <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
+}
+
 // Leave @ bottom of script.
 init();
+
