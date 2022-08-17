@@ -1,3 +1,12 @@
+.foodpic {
+    border: 2px solid black;
+    padding: 25px;
+    background: url(Food.png) center;
+    background-size: cover;
+    margin: 0 20px 0 20px;
+  
+  }
+
 body {
     background-color: rgb(45, 73, 73);
     
