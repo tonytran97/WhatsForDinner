@@ -8,7 +8,9 @@
   }
 
 body {
-    background-color: rgb(188, 214, 214);
+    background-color: rgb(45, 73, 73);
+    
+    color: silver;
 }
 
 .food {
@@ -18,15 +20,48 @@ body {
 
 .drinks {
   padding-bottom: 100px;
+  min-height: 35vh;
+}
+
+#ing {
+    padding-top: 2px;
+    padding-bottom: 5px;
 }
 
 p {
     color:rgb(2, 2, 2);
-    padding-bottom: 30px;
+    padding-bottom: 5px;
+    padding-top: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 22px;
 }
 
 header {
     padding-top: 100px;
     padding-bottom: 90px;
+}
+
+.heading {
+    font-family: 'Pacifico', cursive;
+}
+
+
+h1 {
+    padding-bottom: 40px;
+    padding-top: 40px;
+    font-size: 28px;
+    color: black;
+    font-family: monospace;
+}
+
+.chuckjoke {
+    padding-bottom: 0%;
+}
+
+.button {
+    max-width: 14em;
+    overflow: hidden;
+    text-align: start;
+    white-space: nowrap;
 }
 

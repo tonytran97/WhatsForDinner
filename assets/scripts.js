@@ -44,7 +44,7 @@ function fetchStuff(request) {
 
                         if (data.meals) {
                             displayMeal(data)
-                            saveMeals(data) 
+                            saveMeals(data)
 
                         }
                         else if (data.drinks) {
@@ -57,55 +57,62 @@ function fetchStuff(request) {
 
                         }
 
-                        if (data.meals === null) {
-                            alert('null')
-                        }
                     })
             }
             else {
-                alert(`Error: ${response.statusText}`)
+                swal({
+                    icon: "error",
+                    text: `Error: ${response.statusText}`,
+                });
             }
         })
         .catch(function (error) {
-            alert(`Unable to retireve requested data`)
+            swal({
+                icon: "error",
+                text: `Unable to retireve requested data`,
+            });
         })
 }
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
-function buildMealReq(x, y) {
-    mealInput.value = ""
-    if (y.length == 0) {
-        fetchStuff(mealDBRand)
-    }
-    else if (x == 'i' || 'c') {
-        let mealUrl = `${mealDB}${x}=${y}`
-        console.log(mealUrl)
-        fetchStuff(mealUrl)
-    }
-}
+// function buildMealReq(x, y) {
+//     mealInput.value = ""
+//     if (y.length == 0) {
+//         fetchStuff(mealDBRand)
+//     }
+//     else if (x == 'i' || 'c') {
+//         let mealUrl = `${mealDB}${x}=${y}`
+//         console.log(mealUrl)
+//         fetchStuff(mealUrl)
+//     }
+// }
 
 // builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
-function buildDrinkReq(x, y) {
+// function buildDrinkReq(x, y) {
 
-    drinkInput.value = ""
-    if (y.length == 0) {
-        fetchStuff(cocktailDBRand)
-    }
-    else if (x == 'i' || 'a') {
-        let drinkUrl = `${cocktailDB}${x}=${y}`
-        console.log(drinkUrl)
-        fetchStuff(drinkUrl)
-    }
-}
+//     drinkInput.value = ""
+//     if (y.length == 0) {
+//         fetchStuff(cocktailDBRand)
+//     }
+//     else if (x == 'i' || 'a') {
+//         let drinkUrl = `${cocktailDB}${x}=${y}`
+//         console.log(drinkUrl)
+//         fetchStuff(drinkUrl)
+//     }
+// }
 
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    buildMealReq(mealCat.value, mealInput.value);
+    // buildMealReq(mealCat.value, mealInput.value);
+    fetchStuff(mealDBRand)
+    recentMealBtns();
 })
 
 drinkBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    buildDrinkReq(drinkCat.value, drinkInput.value);
+    // buildDrinkReq(drinkCat.value, drinkInput.value);
+    fetchStuff(cocktailDBRand)
+    recentDrinkBtns();
 })
 
 joke.addEventListener("click", function (ev) {
@@ -120,9 +127,19 @@ let mealSearchObj = {};
 
 // // Saves used data into mealSearchObj, pushes object into mealSearchArr, saves arr to local storage, then empties the mealSearchObj for next search. Uses while loop to keep array at 5 items.
 function saveMeals(e) {
+    // if (mealSearchObj.includes(e)) {
+    //     return
+    // }
     mealSearchObj.display = e.meals[0].strMeal;
     mealSearchObj.picture = e.meals[0].strMealThumb;
     mealSearchObj.link = e.meals[0].strSource;
+    // does not replicate buttons
+    for (let i = 0; i < mealSearchArr.length; i++) {
+        if (mealSearchArr[i].display.includes(e.meals[0].strMeal)) {
+            console.log('this wont work')
+            return
+        }
+    }
     mealSearchArr.push(mealSearchObj);
     while (mealSearchArr.length > 5) {
         mealSearchArr.shift()
@@ -175,6 +192,13 @@ function saveDrinks(h) {
         14: h.drinks[0].strMeasure14,
         15: h.drinks[0].strMeasure15,
     }
+    // does not replicate same btn
+    for (let i = 0; i < drinkSearchArr.length; i++) {
+        if (drinkSearchArr[i].display.includes(h.drinks[0].strDrink)) {
+            console.log('this wont work')
+            return
+        }
+    }
     drinkSearchArr.push(drinkSearchObj);
     while (drinkSearchArr.length > 5) {
         drinkSearchArr.shift()
@@ -190,11 +214,13 @@ function init() {
     if (storedMealSearches !== null) {
         mealSearchArr = storedMealSearches
     }
+    recentMealBtns()
     //drinks
     let storedDrinkSearches = JSON.parse(localStorage.getItem('drinkSearches'))
     if (storedDrinkSearches !== null) {
         drinkSearchArr = storedDrinkSearches
     }
+    recentDrinkBtns()
 }
 
 function displayMeal(f) {
@@ -205,6 +231,34 @@ function displayMeal(f) {
     $("#meal-output").html(`<h1> ${display} </h1>
     <a href = "${link}" target="_blank"><img src="${picture}" id="meal-pic"></a>
     `)
+}
+
+function displayMeal22(f) {
+    let clicked = f.target
+    var display = clicked.getAttribute('data-display');
+    var picture = clicked.getAttribute('data-picture');
+    var link = clicked.getAttribute('data-link');
+    console.log(display);
+    $("#meal-output").html(`<h1> ${display} </h1>
+    <a href = "${link}" target="_blank"><img src="${picture}" id="meal-pic"></a>
+    `)
+}
+
+function recentMealBtns() {
+    document.getElementById('lastMeals').innerHTML = ""
+    for (let i = 0; i < mealSearchArr.length; i++) {
+        let foodBtn = document.createElement('button');
+        foodBtn.setAttribute('data-display', mealSearchArr[i].display);
+        foodBtn.setAttribute('data-picture', mealSearchArr[i].picture);
+        foodBtn.setAttribute('data-link', mealSearchArr[i].link)
+        foodBtn.setAttribute('class', 'button is-link ml-1 mt-5')
+        foodBtn.textContent = `${mealSearchArr[i].display}`
+        foodBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            displayMeal22(ev)
+        })
+        document.getElementById('lastMeals').appendChild(foodBtn)
+    }
 }
 
 function displayDrink(g) {
@@ -269,6 +323,83 @@ function displayDrink(g) {
 
 }
 
+function displayDrink22(g) {
+    var displayDrink = g.display;
+    var pictureDrink = g.picture;
+    var recipeDrink = g.recipe;
+    var ingredientList = {
+        1: g.ingredientList[1],
+        2: g.ingredientList[2],
+        3: g.ingredientList[3],
+        4: g.ingredientList[4],
+        5: g.ingredientList[5],
+        6: g.ingredientList[6],
+        7: g.ingredientList[7],
+        8: g.ingredientList[8],
+        9: g.ingredientList[9],
+        10: g.ingredientList[10],
+        11: g.ingredientList[11],
+        12: g.ingredientList[12],
+        13: g.ingredientList[13],
+        14: g.ingredientList[14],
+        15: g.ingredientList[15],
+    }
+    var ingredientMeasurements = {
+        1: g.ingredientMeasurements[1],
+        2: g.ingredientMeasurements[2],
+        3: g.ingredientMeasurements[3],
+        4: g.ingredientMeasurements[4],
+        5: g.ingredientMeasurements[5],
+        6: g.ingredientMeasurements[6],
+        7: g.ingredientMeasurements[7],
+        8: g.ingredientMeasurements[8],
+        9: g.ingredientMeasurements[9],
+        10: g.ingredientMeasurements[10],
+        11: g.ingredientMeasurements[11],
+        12: g.ingredientMeasurements[12],
+        13: g.ingredientMeasurements[13],
+        14: g.ingredientMeasurements[14],
+        15: g.ingredientMeasurements[15],
+    }
+    $("#drink-output").html(`<h1> ${displayDrink} </h1>
+   <img src="${pictureDrink}" id="meal-pic">
+   <p id = "ing"> Required ingredients <p>
+   <p> ${recipeDrink} </p>
+    `)
+
+    for (i = 1; i < 16; i++) {
+        if (ingredientList[i] == null) {
+            console.log('failed')
+            return;
+        }
+        console.log(ingredientList[i]);
+        var dL = document.createElement("p");
+        dL.textContent = ingredientList[i] + " " + ingredientMeasurements[i];
+        console.log(dL);
+        $("#ing").append(dL);
+    }
+
+
+    console.log(displayDrink);
+
+}
+
+function recentDrinkBtns() {
+    document.getElementById('lastDrink').innerHTML = ""
+    for (let i = 0; i < drinkSearchArr.length; i++) {
+        let drinkBtn = document.createElement('button');
+        drinkBtn.setAttribute('data-test', JSON.stringify(drinkSearchArr[i]))
+        drinkBtn.setAttribute('class', 'button is-link ml-1 mt-5')
+        drinkBtn.textContent = `${drinkSearchArr[i].display}`
+        let parsed = JSON.parse(drinkBtn.getAttribute('data-test'))
+
+        document.getElementById('lastDrink').appendChild(drinkBtn)
+        drinkBtn.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            displayDrink22(parsed)
+        })
+    }
+}
 
 // stores an array of gif urls to be chosen at random
 let chuckGifArr = [];
@@ -278,10 +409,10 @@ let chuckJoke;
 // queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gifs into the gif array and calls showChuck().
 function getChuck(request) {
     fetch(request)
-        .then(function(response) {
+        .then(function (response) {
             if (response.ok) {
                 return response.json()
-                    .then(function(data) {
+                    .then(function (data) {
                         for (let i = 0; i < data.results.length; i++) {
                             chuckGifArr.push(data.results[i].media_formats.gif.url)
                         }
@@ -300,4 +431,3 @@ function showChuck() {
 
 // Leave @ bottom of script.
 init();
-
