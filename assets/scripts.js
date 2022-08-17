@@ -44,7 +44,7 @@ function fetchStuff(request) {
 
                         if (data.meals) {
                             displayMeal(data)
-                            saveMeals(data) 
+                            saveMeals(data)
 
                         }
                         else if (data.drinks) {
@@ -57,17 +57,20 @@ function fetchStuff(request) {
 
                         }
 
-                        if (data.meals === null) {
-                            alert('null')
-                        }
                     })
             }
             else {
-                alert(`Error: ${response.statusText}`)
+                swal({
+                    icon: "error",
+                    text: `Error: ${response.statusText}`,
+                });
             }
         })
         .catch(function (error) {
-            alert(`Unable to retireve requested data`)
+            swal({
+                icon: "error",
+                text: `Unable to retireve requested data`,
+            });
         })
 }
 
@@ -124,6 +127,9 @@ let mealSearchObj = {};
 
 // // Saves used data into mealSearchObj, pushes object into mealSearchArr, saves arr to local storage, then empties the mealSearchObj for next search. Uses while loop to keep array at 5 items.
 function saveMeals(e) {
+    // if (mealSearchObj.includes(e)) {
+    //     return
+    // }
     mealSearchObj.display = e.meals[0].strMeal;
     mealSearchObj.picture = e.meals[0].strMealThumb;
     mealSearchObj.link = e.meals[0].strSource;
@@ -233,7 +239,7 @@ function recentMealBtns() {
         foodBtn.setAttribute('data-link', mealSearchArr[i].link)
         foodBtn.setAttribute('class', 'button is-link ml-1 mt-5')
         foodBtn.textContent = `${mealSearchArr[i].display}`
-        foodBtn.addEventListener('click', function(ev) {
+        foodBtn.addEventListener('click', function (ev) {
             ev.preventDefault();
             displayMeal22(ev)
         })
@@ -372,11 +378,12 @@ function recentDrinkBtns() {
         drinkBtn.setAttribute('class', 'button is-link ml-1 mt-5')
         drinkBtn.textContent = `${drinkSearchArr[i].display}`
         let parsed = JSON.parse(drinkBtn.getAttribute('data-test'))
-        
+
         document.getElementById('lastDrink').appendChild(drinkBtn)
-        drinkBtn.addEventListener('click', function(ev) {
+        drinkBtn.addEventListener('click', function (ev) {
             ev.preventDefault();
-            displayDrink22(parsed)}) 
+            displayDrink22(parsed)
+        })
     }
 }
 
@@ -388,10 +395,10 @@ let chuckJoke;
 // queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gifs into the gif array and calls showChuck().
 function getChuck(request) {
     fetch(request)
-        .then(function(response) {
+        .then(function (response) {
             if (response.ok) {
                 return response.json()
-                    .then(function(data) {
+                    .then(function (data) {
                         for (let i = 0; i < data.results.length; i++) {
                             chuckGifArr.push(data.results[i].media_formats.gif.url)
                         }
