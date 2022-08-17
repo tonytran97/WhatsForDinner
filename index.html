@@ -7,16 +7,21 @@
     <title>What's For Dinner?</title>
     <!-- insert bootstrap alternative here -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mouse+Memoirs&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 
 <body>
+<div class="heading">
 <!-- incorporate styling -->
-<header class="is-size-1 has-text-centered has-text-weight-bold">WhatsForDinner</header>
+<header class="is-size-1 has-text-centered has-text-weight-bold">What's For Dinner?</header>
 
 <h2 class="is-size-3 has-text-centered">Welcome to our Dinner Generator!</h2>
 
 <!-- insert rows and columns here -->
+</div>
 
 <div class="container">
   <div class="food">
@@ -39,7 +44,7 @@
 </div>
 
 <div class="drinks">
-<form class="box has-text-centered has-background-grey-light pb-6">
+<form class="box has-text-centered has-background-grey pb-6">
 <p>Lets pair up your dinner with a drink</p>
 <select name="drinks" id="drinkCat">
     <option value="i">Search by ingredients</option>
@@ -58,9 +63,9 @@
 
 
 <!-- our funtime box -->
-<form class="box has-text-centered has-background-grey-light pb-6">
+<form id="chuckjoke" class="box has-text-centered has-background-grey pb-6">
 <footer class="funTime"><p>Chuck Norris NSFW</p>
-  <button id="chuck">Joke</button>
+  <button id="chuck" class="button is-danger">Joke</button>
   <div id="joke"></div>
 </footer></form>
 
