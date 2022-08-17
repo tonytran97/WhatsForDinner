@@ -1,10 +1,6 @@
 .foodpic {
-    border: 2px solid black;
-    padding: 25px;
     background: url(Food.png) center;
     background-size: cover;
-    margin: 0 20px 0 20px;
-  
   }
 
 body {
@@ -65,3 +61,6 @@ h1 {
     white-space: nowrap;
 }
 
+h2 {
+    padding-bottom: 30px;
+}
