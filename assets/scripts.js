@@ -41,11 +41,18 @@ function fetchStuff(request) {
                     .then(function (data) {
                         console.log(data);
 
-                        if (data.meals) { displayMeal(data) }
-                        else if (data.drinks) { displayDrink(data) }
+                        if (data.meals) {
+                            displayMeal(data)
+                            saveMeals(data) 
+                        }
+                        else if (data.drinks) {
+                            displayDrink(data)
+                            saveDrinks(data)
+                        }
                         else {
-                            document.getElementById("joke").innerHTML = `${data.value} 
-                        <img src="https://images01.military.com/sites/default/files/styles/full/public/2021-04/chucknorris.jpeg.jpg?itok=2b4A6n29" id="chuck-pic"></img>`
+                            document.getElementById("joke").innerHTML = `
+                            <p>${data.value}</p> 
+                            <img src="https://images01.military.com/sites/default/files/styles/full/public/2021-04/chucknorris.jpeg.jpg?itok=2b4A6n29" id="chuck-pic"></img>`
                         }
 
                         if (data.meals === null) {
@@ -60,7 +67,6 @@ function fetchStuff(request) {
         .catch(function (error) {
             alert(`Unable to retireve requested data`)
         })
-    storedSearchArr.push(request);
 }
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
@@ -107,24 +113,88 @@ joke.addEventListener("click", function (ev) {
 
 })
 
-// Can be used to populate recent seraches on page. Depending on how we want to use recent searches, may consider placing desired variables/data into an obect and pushing object into local storage.
-let storedSearchArr = [];
+// Array to be iterated over for building locally stored recipes and rendering on page.
+let mealSearchArr = [];
+// Object used to store used pieces of data into local storage.
+let mealSearchObj = {};
+
+// // Saves used data into mealSearchObj, pushes object into mealSearchArr, saves arr to local storage, then empties the mealSearchObj for next search. Uses while loop to keep array at 5 items.
+function saveMeals(e) {
+    mealSearchObj.display = e.meals[0].strMeal;
+    mealSearchObj.picture = e.meals[0].strMealThumb;
+    mealSearchObj.link = e.meals[0].strSource;
+    mealSearchArr.push(mealSearchObj);
+    while (mealSearchArr.length > 5) {
+        mealSearchArr.shift()
+    };
+    localStorage.setItem('mealSearches', JSON.stringify(mealSearchArr))
+    mealSearchObj = {}
+}
+
+// Array to be iterated over for building locally stored recipes and rendering on page.
+let drinkSearchArr = [];
+// Object used to store used pieces of data into local storage.
+let drinkSearchObj = {};
+
+// Saves used data into drinkSearchObj, pushes object into drinkSearchArr, saves arr to local storage, then empties the drinkSearchObj for next search. Uses while loop to keep array at 5 items.
+function saveDrinks(h) {
+    drinkSearchObj.display = h.drinks[0].strDrink;
+    drinkSearchObj.picture = h.drinks[0].strDrinkThumb;
+    drinkSearchObj.recipe = h.drinks[0].strInstructions;
+    drinkSearchObj.ingredientList = {
+        1: h.drinks[0].strIngredient1,
+        2: h.drinks[0].strIngredient2,
+        3: h.drinks[0].strIngredient3,
+        4: h.drinks[0].strIngredient4,
+        5: h.drinks[0].strIngredient5,
+        6: h.drinks[0].strIngredient6,
+        7: h.drinks[0].strIngredient7,
+        8: h.drinks[0].strIngredient8,
+        9: h.drinks[0].strIngredient9,
+        10: h.drinks[0].strIngredient10,
+        11: h.drinks[0].strIngredient11,
+        12: h.drinks[0].strIngredient12,
+        13: h.drinks[0].strIngredient13,
+        14: h.drinks[0].strIngredient14,
+        15: h.drinks[0].strIngredient15,
+    }
+    drinkSearchObj.ingredientMeasurements = {
+        1: h.drinks[0].strMeasure1,
+        2: h.drinks[0].strMeasure2,
+        3: h.drinks[0].strMeasure3,
+        4: h.drinks[0].strMeasure4,
+        5: h.drinks[0].strMeasure5,
+        6: h.drinks[0].strMeasure6,
+        7: h.drinks[0].strMeasure7,
+        8: h.drinks[0].strMeasure8,
+        9: h.drinks[0].strMeasure9,
+        10: h.drinks[0].strMeasure10,
+        11: h.drinks[0].strMeasure11,
+        12: h.drinks[0].strMeasure12,
+        13: h.drinks[0].strMeasure13,
+        14: h.drinks[0].strMeasure14,
+        15: h.drinks[0].strMeasure15,
+    }
+    drinkSearchArr.push(drinkSearchObj);
+    while (drinkSearchArr.length > 5) {
+        drinkSearchArr.shift()
+    };
+    localStorage.setItem('drinkSearches', JSON.stringify(drinkSearchArr))
+    drinkSearchObj = {}
+}
 
 // Gets local storage and sets to storedSearchArr if not empty. Function should be called upon load of page.
 function init() {
-    let storedSearches = JSON.parse(localStorage.getItem('searches'))
-    if (storedSearches !== null) {
-        storedSearchArr = storedSearches
+    //meals
+    let storedMealSearches = JSON.parse(localStorage.getItem('mealSearches'))
+    if (storedMealSearches !== null) {
+        mealSearchArr = storedMealSearches
     }
-}
-
-// When called, takes argument e and pushes into storedSearch array. If array has length >5 will shift oldest item out of the array. Sets array to local storage.
-function saveSearch(e) {
-    storedSearchArr.push(e);
-    while (storedSearchArr.length > 5) {
-        storedSearchArr.shift()
-    };
-    localStorage.setItem('searches', JSON.stringify(storedSearchArr))
+    //drinks
+    let storedDrinkSearches = JSON.parse(localStorage.getItem('drinkSearches'))
+    if (storedDrinkSearches !== null) {
+        drinkSearchArr = storedDrinkSearches
+    }
 }
 
 function displayMeal(f) {
@@ -198,3 +268,6 @@ function displayDrink(g) {
     console.log(displayDrink);
 
 }
+
+// Leave @ bottom of script.
+init();
