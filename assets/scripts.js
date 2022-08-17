@@ -133,6 +133,13 @@ function saveMeals(e) {
     mealSearchObj.display = e.meals[0].strMeal;
     mealSearchObj.picture = e.meals[0].strMealThumb;
     mealSearchObj.link = e.meals[0].strSource;
+    // does not replicate buttons
+    for (let i = 0; i < mealSearchArr.length; i++) {
+        if (mealSearchArr[i].display.includes(e.meals[0].strMeal)) {
+            console.log('this wont work')
+            return
+        }
+    }
     mealSearchArr.push(mealSearchObj);
     while (mealSearchArr.length > 5) {
         mealSearchArr.shift()
@@ -184,6 +191,13 @@ function saveDrinks(h) {
         13: h.drinks[0].strMeasure13,
         14: h.drinks[0].strMeasure14,
         15: h.drinks[0].strMeasure15,
+    }
+    // does not replicate same btn
+    for (let i = 0; i < drinkSearchArr.length; i++) {
+        if (drinkSearchArr[i].display.includes(h.drinks[0].strDrink)) {
+            console.log('this wont work')
+            return
+        }
     }
     drinkSearchArr.push(drinkSearchObj);
     while (drinkSearchArr.length > 5) {
