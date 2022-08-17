@@ -14,10 +14,15 @@ body {
   min-height: 35vh;
 }
 
+#ing {
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
 p {
     color:rgb(2, 2, 2);
-    padding-bottom: 30px;
-    padding-top: 30px;
+    padding-bottom: 5px;
+    padding-top: 20px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 22px;
 }
@@ -43,3 +48,11 @@ h1 {
 .chuckjoke {
     padding-bottom: 0%;
 }
+
+.button {
+    max-width: 14em;
+    overflow: hidden;
+    text-align: start;
+    white-space: nowrap;
+}
+
