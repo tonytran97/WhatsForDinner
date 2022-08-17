@@ -231,7 +231,7 @@ function recentMealBtns() {
         foodBtn.setAttribute('data-display', mealSearchArr[i].display);
         foodBtn.setAttribute('data-picture', mealSearchArr[i].picture);
         foodBtn.setAttribute('data-link', mealSearchArr[i].link)
-        foodBtn.setAttribute('class', 'button is-primary')
+        foodBtn.setAttribute('class', 'button is-link ml-1 mt-5')
         foodBtn.textContent = `${mealSearchArr[i].display}`
         foodBtn.addEventListener('click', function(ev) {
             ev.preventDefault();
@@ -369,7 +369,7 @@ function recentDrinkBtns() {
     for (let i = 0; i < drinkSearchArr.length; i++) {
         let drinkBtn = document.createElement('button');
         drinkBtn.setAttribute('data-test', JSON.stringify(drinkSearchArr[i]))
-        drinkBtn.setAttribute('class', 'button is-primary')
+        drinkBtn.setAttribute('class', 'button is-link ml-1 mt-5')
         drinkBtn.textContent = `${drinkSearchArr[i].display}`
         let parsed = JSON.parse(drinkBtn.getAttribute('data-test'))
         
