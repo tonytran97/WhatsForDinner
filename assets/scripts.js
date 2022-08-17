@@ -72,41 +72,43 @@ function fetchStuff(request) {
 }
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
-function buildMealReq(x, y) {
-    mealInput.value = ""
-    if (y.length == 0) {
-        fetchStuff(mealDBRand)
-    }
-    else if (x == 'i' || 'c') {
-        let mealUrl = `${mealDB}${x}=${y}`
-        console.log(mealUrl)
-        fetchStuff(mealUrl)
-    }
-}
+// function buildMealReq(x, y) {
+//     mealInput.value = ""
+//     if (y.length == 0) {
+//         fetchStuff(mealDBRand)
+//     }
+//     else if (x == 'i' || 'c') {
+//         let mealUrl = `${mealDB}${x}=${y}`
+//         console.log(mealUrl)
+//         fetchStuff(mealUrl)
+//     }
+// }
 
 // builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
-function buildDrinkReq(x, y) {
+// function buildDrinkReq(x, y) {
 
-    drinkInput.value = ""
-    if (y.length == 0) {
-        fetchStuff(cocktailDBRand)
-    }
-    else if (x == 'i' || 'a') {
-        let drinkUrl = `${cocktailDB}${x}=${y}`
-        console.log(drinkUrl)
-        fetchStuff(drinkUrl)
-    }
-}
+//     drinkInput.value = ""
+//     if (y.length == 0) {
+//         fetchStuff(cocktailDBRand)
+//     }
+//     else if (x == 'i' || 'a') {
+//         let drinkUrl = `${cocktailDB}${x}=${y}`
+//         console.log(drinkUrl)
+//         fetchStuff(drinkUrl)
+//     }
+// }
 
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    buildMealReq(mealCat.value, mealInput.value);
+    // buildMealReq(mealCat.value, mealInput.value);
+    fetchStuff(mealDBRand)
     recentMealBtns();
 })
 
 drinkBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    buildDrinkReq(drinkCat.value, drinkInput.value);
+    // buildDrinkReq(drinkCat.value, drinkInput.value);
+    fetchStuff(cocktailDBRand)
     recentDrinkBtns();
 })
 
@@ -408,5 +410,3 @@ function showChuck() {
 
 // Leave @ bottom of script.
 init();
-
-//ignore me I am just a test
