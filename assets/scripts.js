@@ -429,5 +429,12 @@ function showChuck() {
         <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
 }
 
+$('#rickRollEm').click(function () {
+    console.log("hello");
+    let sucksToBeYou = document.createElement('h1');
+    sucksToBeYou.textContent = "LOL GET RICK ROLLED, btw this was Isabella's idea";
+    $('#rickSlot').append(sucksToBeYou);
+})
+
 // Leave @ bottom of script.
 init();
