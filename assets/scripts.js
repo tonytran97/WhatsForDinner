@@ -10,13 +10,14 @@ const cocktailRedirect = 'https://www.thecocktaildb.com/drink/' //Requires code 
 const mealDBIng = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=' // Need to add ingredient after 'i='
 const mealDBCat = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=' // Need to add category after 'c='
 const mealDBRand = 'https://www.themealdb.com/api/json/v1/1/random.php' // Works as is
-
+const mealDBID = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i='
 
 const cocktailDB = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?'
 
 const cocktailDBIng = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' // Need to add ingredient after 'i='
 const cocktailDBAlc = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=' // Need to add either 'Alcoholic' or 'Non_alcoholic' after 'a='
 const cocktailDBRand = 'https://www.thecocktaildb.com/api/json/v1/1/random.php' // Works as is
+const cocktailDBID = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i='
 
 const imgPreview = '/preview' // Add to end of the thumbnail image included in JSON to get image to display. Shows as either 'strMealThumb' or 'strDrinkThumb' in data packet.
 
@@ -34,78 +35,102 @@ const drinkCat = document.getElementById('drinkCat');
 const joke = document.getElementById("chuck");
 
 function fetchStuff(request) {
-    fetch(request)
+    if (request == chuckNorris) {
+        fetch(request)
+        .then(function (response) {
+            if (response.ok) {
+                return response.json()
+                    .then(function (data) {
+                        chuckJoke = data.value
+                        getChuck(chuckNorrisGifs)
+                    })
+                }
+        })
+    }
+    else {
+        fetch(request)
         .then(function (response) {
             if (response.ok) {
                 return response.json()
                     .then(function (data) {
                         if (data.meals) {
-                            saveMeals(data)
-                            displayMeal(data)
+                            if (data.meals.length > 1) {
+                                chooseMeal(data)
+                            }
+                            else if (data.meals.length == 1) {
+                                saveMeals(data)
+                                displayMeal(data)
+                            }
                         }
                         else if (data.drinks) {
-                            displayDrink(data)
-                            saveDrinks(data)
+                            if (data.drinks.length > 1) {
+                                chooseDrink(data)
+                            }
+                            else if (data.drinks.length == 1){
+                                saveDrinks(data)
+                                displayDrink(data)
+                            }
                         }
                         else {
-                            chuckJoke = data.value
-                            getChuck(chuckNorrisGifs)
+                            swal({
+                                icon: "error",
+                                text: `That is an invalid option`,
+                            });
                         }
                     })
-            }
-            else {
-                swal({
-                    icon: "error",
-                    text: `Error: ${response.statusText}`,
-                });
-            }
-        })
+                }
+                else {
+                    swal({
+                        icon: "error",
+                        text: `Error: ${response.statusText}`,
+                    });
+                }
+                }) 
         .catch(function (error) {
             swal({
                 icon: "error",
                 text: `Unable to retireve requested data`,
             });
         })
-}
+            } 
+    }
+                     
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
-// function buildMealReq(x, y) {
-//     mealInput.value = ""
-//     if (y.length == 0) {
-//         fetchStuff(mealDBRand)
-//     }
-//     else if (x == 'i' || 'c') {
-//         let mealUrl = `${mealDB}${x}=${y}`
-//         console.log(mealUrl)
-//         fetchStuff(mealUrl)
-//     }
-// }
+function buildMealReq(x) {
+    mealInput.value = ""
+    if (x.length == 0) {
+        fetchStuff(mealDBRand)
+    }
+    else {
+        let mealUrl = `${mealDBIng}${x}`
+        console.log(mealUrl)
+        fetchStuff(mealUrl)
+    }
+}
 
 // builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
-// function buildDrinkReq(x, y) {
-
-//     drinkInput.value = ""
-//     if (y.length == 0) {
-//         fetchStuff(cocktailDBRand)
-//     }
-//     else if (x == 'i' || 'a') {
-//         let drinkUrl = `${cocktailDB}${x}=${y}`
-//         console.log(drinkUrl)
-//         fetchStuff(drinkUrl)
-//     }
-// }
+function buildDrinkReq(y) {
+    drinkInput.value = ""
+    if (y.length == 0) {
+        fetchStuff(cocktailDBRand)
+    }
+    else {
+        let drinkUrl = `${cocktailDBIng}${y}`
+        console.log(drinkUrl)
+        fetchStuff(drinkUrl)
+    }
+}
 
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    // buildMealReq(mealCat.value, mealInput.value);
-    fetchStuff(mealDBRand)
+    buildMealReq(mealInput.value);
     recentMealBtns();
 })
 
 drinkBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    // buildDrinkReq(drinkCat.value, drinkInput.value);
-    fetchStuff(cocktailDBRand)
+    buildDrinkReq(drinkInput.value);
     recentDrinkBtns();
 })
 
@@ -145,7 +170,10 @@ function displayMeal(f) {
 }
 
 function chooseMeal(j) {
-    
+    let chosen = j.meals[Math.floor(Math.random() * j.meals.length)]
+    console.log(chosen)
+    console.log(mealDBID + chosen.idMeal)
+    fetchStuff(mealDBID + chosen.idMeal)
 }
 
 function recentMealBtns() {
@@ -242,6 +270,13 @@ function displayDrink(g) {
     }
 }
 
+function chooseDrink(k) {
+    let chosen = k.drinks[Math.floor(Math.random() * k.drinks.length)]
+    console.log(chosen)
+    console.log(cocktailDBID + chosen.idDrink)
+    fetchStuff(cocktailDBID + chosen.idDrink)
+}
+
 function recentDrinkBtns() {
     document.getElementById('lastDrink').innerHTML = ""
     for (let i = 0; i < drinkSearchArr.length; i++) {
@@ -310,6 +345,11 @@ $('#rickRollEm').click(function () {
     $('#rickSlot').append(sucksToBeYou);
 })
 
+// Leave @ bottom of script.
+init();
+
+
+// I am only for testing
 function test(request) {
     fetch(request)
         .then(function (response) {
@@ -322,7 +362,6 @@ function test(request) {
         })
     }
 
-
-test('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52782')
-// Leave @ bottom of script.
-init();
+// test('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=juice')
+// test(cocktailDBID + '16333')
+// test(mealDBIng + 'chicken')
