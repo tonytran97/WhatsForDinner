@@ -93,9 +93,29 @@ function fetchStuff(request) {
             });
         })
             } 
-}              
+}   
 
-// builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
+// Array to be iterated over for building locally stored recipes and rendering on page.
+let mealSearchArr = [];
+
+// Saves used data into mealSearchObj, pushes object into mealSearchArr, saves arr to local storage, then empties the mealSearchObj for next search. Uses while loop to keep array at 5 items.
+function saveMeals(e) {
+    console.log(e)
+    // does not replicate buttons
+    for (let i = 0; i < mealSearchArr.length; i++) {
+        if (mealSearchArr[i].meals[0].strMeal === e.meals[0].strMeal) {
+            console.log('this wont work')
+            return
+        }
+    }
+    mealSearchArr.push(e);
+    while (mealSearchArr.length > 5) {
+        mealSearchArr.shift()
+    };
+    localStorage.setItem('mealSearches', JSON.stringify(mealSearchArr))
+}
+
+// Builds mealDB request URL, uses select option value as argument x. 
 function buildMealReq(x) {
     mealCat.value = ""
     if (x == 'random' || "") {
@@ -114,56 +134,6 @@ function buildMealReq(x) {
     }
 }
 
-// builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
-function buildDrinkReq(y) {
-    drinkInput.value = ""
-    if (y.length == 0) {
-        fetchStuff(cocktailDBRand)
-    }
-    else {
-        let drinkUrl = `${cocktailDBIng}${y}`
-        console.log(drinkUrl)
-        fetchStuff(drinkUrl)
-    }
-}
-
-mealBtn.addEventListener('click', function (ev) {
-    ev.preventDefault();
-    buildMealReq(mealCat.value);
-    recentMealBtns();
-})
-
-drinkBtn.addEventListener('click', function (ev) {
-    ev.preventDefault();
-    buildDrinkReq(drinkInput.value);
-    recentDrinkBtns();
-})
-
-joke.addEventListener("click", function (ev) {
-    ev.preventDefault();
-    fetchStuff(chuckNorris);
-})
-
-// Array to be iterated over for building locally stored recipes and rendering on page.
-let mealSearchArr = [];
-
-// // Saves used data into mealSearchObj, pushes object into mealSearchArr, saves arr to local storage, then empties the mealSearchObj for next search. Uses while loop to keep array at 5 items.
-function saveMeals(e) {
-    console.log(e)
-    // does not replicate buttons
-    for (let i = 0; i < mealSearchArr.length; i++) {
-        if (mealSearchArr[i].meals[0].strMeal === e.meals[0].strMeal) {
-            console.log('this wont work')
-            return
-        }
-    }
-    mealSearchArr.push(e);
-    while (mealSearchArr.length > 5) {
-        mealSearchArr.shift()
-    };
-    localStorage.setItem('mealSearches', JSON.stringify(mealSearchArr))
-}
-
 function displayMeal(f) {
     var display = f.meals[0].strMeal;
     var picture = f.meals[0].strMealThumb;
@@ -174,6 +144,8 @@ function displayMeal(f) {
     `)
 }
 
+// if user chooses a food option instead of random, response contains array of options. This will choose one fromt eh array at random and pull the meal ID and send new fetch request using the ID.
+// ingredient/category requests do not contain the same data as a single meal request. This ensures consistent functionality of the page.
 function chooseMeal(j) {
     let chosen = j.meals[Math.floor(Math.random() * j.meals.length)]
     console.log(chosen)
@@ -181,6 +153,7 @@ function chooseMeal(j) {
     fetchStuff(mealDBID + chosen.idMeal)
 }
 
+// Stringifies the object from mealSearchArr and assigns as data atribute for future use. Upon click, parses the data attr and calls displayMeal() passing parsed object in.
 function recentMealBtns() {
     document.getElementById('lastMeals').innerHTML = ""
     for (let i = 0; i < mealSearchArr.length; i++) {
@@ -214,6 +187,19 @@ function saveDrinks(h) {
         drinkSearchArr.shift()
     };
     localStorage.setItem('drinkSearches', JSON.stringify(drinkSearchArr))
+}
+
+// builds cocktailDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random drink.
+function buildDrinkReq(y) {
+    drinkInput.value = ""
+    if (y.length == 0) {
+        fetchStuff(cocktailDBRand)
+    }
+    else {
+        let drinkUrl = `${cocktailDBIng}${y}`
+        console.log(drinkUrl)
+        fetchStuff(drinkUrl)
+    }
 }
 
 function displayDrink(g) {
@@ -275,6 +261,7 @@ function displayDrink(g) {
     }
 }
 
+// Same functionality as chooseMeal(), see comments above.
 function chooseDrink(k) {
     let chosen = k.drinks[Math.floor(Math.random() * k.drinks.length)]
     console.log(chosen)
@@ -282,6 +269,7 @@ function chooseDrink(k) {
     fetchStuff(cocktailDBID + chosen.idDrink)
 }
 
+// Same functionality as recentMealBtns(), see comments above.
 function recentDrinkBtns() {
     document.getElementById('lastDrink').innerHTML = ""
     for (let i = 0; i < drinkSearchArr.length; i++) {
@@ -320,13 +308,14 @@ let chuckGifArr = [];
 // stores the chuck norris joke from the fetchStuff function.
 let chuckJoke;
 
-// queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gifs into the gif array and calls showChuck().
+// queries Tenor gif library using the specified search parameters in the chuckNorrisGifs variable. Once data is returned, pushes the gif urls into the gif array and calls showChuck().
 function getChuck(request) {
     fetch(request)
         .then(function (response) {
             if (response.ok) {
                 return response.json()
                     .then(function (data) {
+                        console.log(data)
                         for (let i = 0; i < data.results.length; i++) {
                             chuckGifArr.push(data.results[i].media_formats.gif.url)
                         }
@@ -343,6 +332,7 @@ function showChuck() {
         <img src="${chuckGifArr[Math.floor(Math.random() * chuckGifArr.length)]}" id="chuck-pic"></img>`
 }
 
+// DO NOT CLICK
 $('#rickRollEm').click(function () {
     console.log("hello");
     let sucksToBeYou = document.createElement('h1');
@@ -350,9 +340,25 @@ $('#rickRollEm').click(function () {
     $('#rickSlot').append(sucksToBeYou);
 })
 
+mealBtn.addEventListener('click', function (ev) {
+    ev.preventDefault();
+    buildMealReq(mealCat.value);
+    recentMealBtns();
+})
+
+drinkBtn.addEventListener('click', function (ev) {
+    ev.preventDefault();
+    buildDrinkReq(drinkInput.value);
+    recentDrinkBtns();
+})
+
+joke.addEventListener("click", function (ev) {
+    ev.preventDefault();
+    fetchStuff(chuckNorris);
+})
+
 // Leave @ bottom of script.
 init();
-
 
 // I am only for testing
 function test(request) {
@@ -365,8 +371,8 @@ function test(request) {
                     })
             }
         })
-    }
+}
 
-test(mealDBIngList)
-test(mealDBCatList)
+// test(mealDBIngList)
+// test(mealDBCatList)
 // test(mealDBIng + 'chicken')
