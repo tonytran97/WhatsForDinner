@@ -93,13 +93,12 @@ function fetchStuff(request) {
             });
         })
             } 
-    }
-                     
+}              
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
 function buildMealReq(x) {
     mealCat.value = ""
-    if (x == 'random') {
+    if (x == 'random' || "") {
         fetchStuff(mealDBRand)
     }
     else if (x == 'veg') {
