@@ -98,9 +98,15 @@ function fetchStuff(request) {
 
 // builds mealDB request, x variable is value of select drop down. y is the the value of input field. If y is blank, will call random meal.
 function buildMealReq(x) {
-    mealInput.value = ""
-    if (x.length == 0) {
+    mealCat.value = ""
+    if (x == 'random') {
         fetchStuff(mealDBRand)
+    }
+    else if (x == 'veg') {
+        fetchStuff(mealDBCat + 'vegetarian')
+    }
+    else if (x == 'vegan') {
+        fetchStuff(mealDBCat + 'vegan')
     }
     else {
         let mealUrl = `${mealDBIng}${x}`
@@ -124,7 +130,7 @@ function buildDrinkReq(y) {
 
 mealBtn.addEventListener('click', function (ev) {
     ev.preventDefault();
-    buildMealReq(mealInput.value);
+    buildMealReq(mealCat.value);
     recentMealBtns();
 })
 
@@ -362,6 +368,6 @@ function test(request) {
         })
     }
 
-// test('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=juice')
-// test(cocktailDBID + '16333')
+test(mealDBIngList)
+test(mealDBCatList)
 // test(mealDBIng + 'chicken')
