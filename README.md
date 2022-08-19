@@ -25,6 +25,8 @@ I am sure that all of us can relate to the fact that deciding what to eat for di
     - jQuery 
     - TheMealDB API
     - TheCocktailDB API
+    - ChuckNorris.io API
+    - Tenor API
     
 /insert screenshots here/
 
