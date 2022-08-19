@@ -55,6 +55,8 @@ h1 {
 }
 
 .button {
+    display: inline-block;
+    word-wrap: break-word;
     max-width: 14em;
     overflow: hidden;
     text-align: start;
