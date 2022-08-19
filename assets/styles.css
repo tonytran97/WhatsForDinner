@@ -5,7 +5,6 @@
 
 body {
     background-color: rgb(45, 73, 73);
-    
     color: silver;
 }
 
@@ -59,7 +58,6 @@ h1 {
     overflow: hidden;
     text-align: start;
     white-space: nowrap;
-    padding-top: 10px;
 }
 
 h2 {
