@@ -11,7 +11,8 @@ I am sure that all of us can relate to the fact that deciding what to eat for di
 
 ---
 
-AS an indecisive and hungry person, 
+AS an indecisive and hungry person,
+
 I want to find a meal to eat for dinner and a drink for afterwards.
 
 ---
