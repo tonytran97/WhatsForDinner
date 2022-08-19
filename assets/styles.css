@@ -59,6 +59,7 @@ h1 {
     overflow: hidden;
     text-align: start;
     white-space: nowrap;
+    padding-top: 10px;
 }
 
 h2 {
