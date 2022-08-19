@@ -1,10 +1,15 @@
+
+
 .foodpic {
     background: url(Food.png) center;
     background-size: cover;
+    opacity: .7;
   }
 
 body {
-    background-color: rgb(45, 73, 73);
+    background: #FF4E50;
+  background: -webkit-linear-gradient(right, #12051d, #F9D423);
+  background: linear-gradient(to left bottom, #032c27, #587c7a);
     color: silver;
 }
 
