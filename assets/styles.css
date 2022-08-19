@@ -54,6 +54,7 @@ h1 {
 }
 
 .button {
+    display: inline-block;
     max-width: 14em;
     overflow: hidden;
     text-align: start;
