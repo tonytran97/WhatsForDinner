@@ -1,5 +1,3 @@
-
-
 // API URLs
 const mealDB = 'https://www.themealdb.com/api/json/v1/1/filter.php?'
 
@@ -37,47 +35,47 @@ const joke = document.getElementById("chuck");
 function fetchStuff(request) {
     if (request == chuckNorris) {
         fetch(request)
-        .then(function (response) {
-            if (response.ok) {
-                return response.json()
-                    .then(function (data) {
-                        chuckJoke = data.value
-                        getChuck(chuckNorrisGifs)
-                    })
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json()
+                        .then(function (data) {
+                            chuckJoke = data.value
+                            getChuck(chuckNorrisGifs)
+                        })
                 }
-        })
+            })
     }
     else {
         fetch(request)
-        .then(function (response) {
-            if (response.ok) {
-                return response.json()
-                    .then(function (data) {
-                        if (data.meals) {
-                            if (data.meals.length > 1) {
-                                chooseMeal(data)
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json()
+                        .then(function (data) {
+                            if (data.meals) {
+                                if (data.meals.length > 1) {
+                                    chooseMeal(data)
+                                }
+                                else if (data.meals.length == 1) {
+                                    saveMeals(data)
+                                    displayMeal(data)
+                                }
                             }
-                            else if (data.meals.length == 1) {
-                                saveMeals(data)
-                                displayMeal(data)
+                            else if (data.drinks) {
+                                if (data.drinks.length > 1) {
+                                    chooseDrink(data)
+                                }
+                                else if (data.drinks.length == 1) {
+                                    saveDrinks(data)
+                                    displayDrink(data)
+                                }
                             }
-                        }
-                        else if (data.drinks) {
-                            if (data.drinks.length > 1) {
-                                chooseDrink(data)
+                            else {
+                                swal({
+                                    icon: "error",
+                                    text: `That is an invalid option`,
+                                });
                             }
-                            else if (data.drinks.length == 1){
-                                saveDrinks(data)
-                                displayDrink(data)
-                            }
-                        }
-                        else {
-                            swal({
-                                icon: "error",
-                                text: `That is an invalid option`,
-                            });
-                        }
-                    })
+                        })
                 }
                 else {
                     swal({
@@ -85,15 +83,15 @@ function fetchStuff(request) {
                         text: `Error: ${response.statusText}`,
                     });
                 }
-                }) 
-        .catch(function (error) {
-            swal({
-                icon: "error",
-                text: `Unable to retireve requested data`,
-            });
-        })
-            } 
-}   
+            })
+            .catch(function (error) {
+                swal({
+                    icon: "error",
+                    text: `Unable to retrieve requested data`,
+                });
+            })
+    }
+}
 
 // Array to be iterated over for building locally stored recipes and rendering on page.
 let mealSearchArr = [];
@@ -336,7 +334,7 @@ function showChuck() {
 $('#rickRollEm').click(function () {
     console.log("hello");
     let sucksToBeYou = document.createElement('h1');
-    sucksToBeYou.textContent = "LOL GET RICK ROLLED, btw this was Isabella's idea";
+    sucksToBeYou.textContent = "LOL GET RICK ROLLED";
     $('#rickSlot').append(sucksToBeYou);
 })
 
@@ -366,7 +364,7 @@ function test(request) {
         .then(function (response) {
             if (response.ok) {
                 return response.json()
-                    .then(function (data){
+                    .then(function (data) {
                         console.log(data)
                     })
             }
