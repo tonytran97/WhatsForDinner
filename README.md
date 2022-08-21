@@ -54,7 +54,7 @@ Technology used to build the application:
 
 [Deployed Link to Application](https://tonytran97.github.io/WhatsForDinner/)
 
-## Future Devlopment
+## Future Development
 
 1. Change drink functions to have dropdowns.
 2. Refine appearance further. 
