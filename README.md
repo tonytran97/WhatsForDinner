@@ -50,7 +50,7 @@ Technology used to build the application:
 
 ## Demonstration
 
-/insert screenshots here/
+![Functionality gif](assets/What's%20For%20Dinner_.gif)
 
 [Deployed Link to Application](https://tonytran97.github.io/WhatsForDinner/)
 
@@ -65,12 +65,12 @@ Technology used to build the application:
 
 ### Authors
 
- > [Jacob Reeves](https://github.com/JDReeves86)
+ - [Jacob Reeves](https://github.com/JDReeves86)
 
- > [Cosmin Sandu](https://github.com/csandu123)
+ - [Cosmin Sandu](https://github.com/csandu123)
 
- > [Rong (Isabella) Xu](https://github.com/EnlightenmentMind)
+ - [Rong (Isabella) Xu](https://github.com/EnlightenmentMind)
 
- > [Tony Tran](https://github.com/tonytran97)
+ - [Tony Tran](https://github.com/tonytran97)
     
-# **The buttons at the bottom of the webpage... use at your own risk!**
+## **The buttons at the bottom of the webpage... use at your own risk!**
