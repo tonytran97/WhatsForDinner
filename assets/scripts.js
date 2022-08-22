@@ -116,7 +116,7 @@ function saveMeals(e) {
 // Builds mealDB request URL, uses select option value as argument x. 
 function buildMealReq(x) {
     mealCat.value = ""
-    if (x == 'random' || "") {
+    if (x == "") {
         fetchStuff(mealDBRand)
     }
     else if (x == 'veg') {
